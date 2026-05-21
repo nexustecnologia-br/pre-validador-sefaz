@@ -1,0 +1,12 @@
+{
+  "name": "pre-validador-sefaz",
+  "version": "1.0.0",
+  "description": "Sistema de pré-validação de notas fiscais antes da SEFAZ-RS",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node-esm src/index.ts",
+    "dev:mock": "ts-node-esm src/index-mock.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:mock": "node dist/index-mock.js",
