@@ -9,9 +9,9 @@
  * Performance improvement: 85%+ cache hit rate on repeated validations
  */
 
-import Redis, { RedisClient } from 'redis';
+import { createClient, RedisClientType } from 'redis';
 import { createHash } from 'crypto';
-import { logger } from '../utils/logger';
+import logger from '../utils/logger';
 
 export interface CachedValidation {
   status: 'aprovado' | 'rejeitado';
@@ -39,13 +39,13 @@ export interface CachedValidation {
 }
 
 export class CacheService {
-  private client: RedisClient;
+  private client: RedisClientType;
   private connected: boolean = false;
   private readonly DEFAULT_TTL = 86400; // 24 hours in seconds
   private readonly HASH_ALGORITHM = 'sha256';
 
   constructor(redisUrl: string = process.env.REDIS_URL || 'redis://localhost:6379') {
-    this.client = Redis.createClient({
+    this.client = createClient({
       url: redisUrl,
       socket: {
         reconnectStrategy: (retries: number) => {
@@ -58,7 +58,7 @@ export class CacheService {
       },
     });
 
-    this.client.on('error', (err) => {
+    this.client.on('error', (err: Error) => {
       logger.error('Redis client error', { error: err.message });
       this.connected = false;
     });
