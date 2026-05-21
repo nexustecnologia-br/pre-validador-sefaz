@@ -52,3 +52,5 @@ frontend/.env.local
 
 # Docker
 .dockerignore
+
+.vercel

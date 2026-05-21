@@ -1,19 +1,13 @@
 {
   "version": 2,
-  "public": true,
-  "buildCommand": "npm run build",
-  "outputDirectory": "public",
-  "env": {},
-  "functions": {
-    "api/validar.ts": {
-      "memory": 512,
-      "maxDuration": 30
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
