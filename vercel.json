@@ -1,6 +1,9 @@
 {
   "version": 2,
   "public": true,
+  "protectionBypass": {
+    "enabled": false
+  },
   "builds": [
     {
       "src": "index.html",
