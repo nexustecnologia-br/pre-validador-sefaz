@@ -20,9 +20,13 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write 'src/**/*.ts' 'frontend/src/**/*.{ts,tsx}'",
     "queue:worker": "ts-node-esm src/queue-worker.ts",
+    "load-test": "k6 run tests/load/validation-load-test.js",
+    "load-test:apache": "bash tests/load/apache-bench-test.sh",
     "docker:build": "docker build -t validador-sefaz .",
     "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "cache:clear": "ts-node-esm -e \"const {getCacheService} = require('./src/services/CacheService'); getCacheService().clear()\""
   },
   "keywords": [
     "SEFAZ",
