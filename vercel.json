@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "public": true,
   "builds": [
     {
       "src": "index.html",
@@ -19,5 +20,8 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "github": {
+    "silent": true
+  }
 }
