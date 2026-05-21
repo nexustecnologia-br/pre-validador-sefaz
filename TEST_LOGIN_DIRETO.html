@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Login Direto</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            display: block;
+        }
+        .result.loading {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            display: block;
+        }
+        .result h3 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .result pre {
+            background: rgba(0,0,0,0.05);
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #004085;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de Login</h1>
+
+        <div class="info-box">
+            <strong>ℹ️ Credenciais de Teste:</strong><br>
+            Email: <code>user@example.com</code><br>
+            Senha: <code>senha123</code>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+                type="email"
+                id="email"
+                value="user@example.com"
+                placeholder="seu@email.com"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input
+                type="password"
+                id="senha"
+                value="senha123"
+                placeholder="••••••••"
+            >
+        </div>
+
+        <button id="loginBtn" onclick="testarLogin()">
+            Testar Login
+        </button>
+
+        <button id="healthBtn" onclick="testarHealth()" style="margin-top: 10px; background: #6c757d;">
+            Verificar Backend
+        </button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function testarHealth() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result loading';
+            resultDiv.innerHTML = '<h3>🔍 Verificando backend...</h3>';
+
+            try {
+                const response = await fetch('http://localhost:3000/health');
+
+                if (!response.ok) {
+                    throw new Error(`Status ${response.status}`);
+                }
+
+                const data = await response.json();
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <h3>✅ Backend está funcionando!</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Erro ao conectar no backend</h3>
+                    <p><strong>Erro:</strong> ${error.message}</p>
+                    <p><strong>Verifique:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Backend está rodando em localhost:3000?</li>
+                        <li>Digite no terminal: <code>node dist/index-mock.js</code></li>
+                        <li>Viu a mensagem "🚀 PRE_VALIDADOR_SEFAZ V2.0 rodando em http://localhost:3000"?</li>
+                    </ul>
+                `;
+            }
+        }
+
+        async function testarLogin() {
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('loginBtn');
+
+            if (!email || !senha) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '<h3>❌ Preencha email e senha</h3>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Testando...';
+            resultDiv.className = 'result loading';
+            resultDiv.innerHTML = '<h3>🔄 Testando login...</h3>';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || `Status ${response.status}`);
+                }
+
+                if (!data.data || !data.data.token) {
+                    throw new Error('Resposta inválida: sem token');
+                }
+
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    <h3>✅ Login bem-sucedido!</h3>
+                    <p><strong>Email:</strong> ${data.data.usuario.email}</p>
+                    <p><strong>Nome:</strong> ${data.data.usuario.nome}</p>
+                    <p><strong>Token:</strong></p>
+                    <pre>${data.data.token}</pre>
+                    <p><strong>Próximo passo:</strong> O frontend deveria estar salvando este token e redirecionando para o dashboard.</p>
+                `;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Erro no login</h3>
+                    <p><strong>Erro:</strong> ${error.message}</p>
+                    <p><strong>Diagnóstico:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Backend está rodando?</li>
+                        <li>Credenciais estão corretas?</li>
+                        <li>Há erro de CORS?</li>
+                    </ul>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Testar Login';
+            }
+        }
+
+        // Testa health check automaticamente ao carregar
+        window.addEventListener('load', () => {
+            testarHealth();
+        });
+    </script>
+</body>
+</html>

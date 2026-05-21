@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "public": true,
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "env": {},
+  "functions": {
+    "api/validar.ts": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Visual de Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.ok {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .output.error {
+            background: #fff5f5;
+            color: #721c24;
+        }
+        .output.success {
+            background: #f0f7f4;
+            color: #155724;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .step {
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .step strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Teste Visual de Login - PRE_VALIDADOR_SEFAZ</h1>
+
+        <div class="grid">
+            <!-- LEFT: DIAGNOSTICS -->
+            <div class="card">
+                <h2>📊 Diagnóstico do Sistema</h2>
+
+                <div class="step">
+                    <strong>1️⃣ Verificar Backend</strong>
+                    <button onclick="testarBackend()">Testar localhost:3000</button>
+                    <div id="backendStatus"></div>
+                </div>
+
+                <div class="step">
+                    <strong>2️⃣ Verificar Frontend</strong>
+                    <button onclick="testarFrontend()">Verificar URL</button>
+                    <div id="frontendStatus"></div>
+                </div>
+
+                <div class="step">
+                    <strong>3️⃣ Testar Login API</strong>
+                    <button onclick="testarLoginAPI()">Testar Login Direto</button>
+                    <div id="loginStatus"></div>
+                </div>
+
+                <div class="step">
+                    <strong>4️⃣ Teste Completo</strong>
+                    <button onclick="testeCompleto()" style="background: #28a745;">Rodar Tudo</button>
+                    <div id="completeStatus"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT: INSTRUCTIONS -->
+            <div class="card">
+                <h2>📋 Instruções</h2>
+
+                <div class="step">
+                    <strong>Pré-requisitos:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Backend rodando: <code>node dist/index-mock.js</code></li>
+                        <li>Frontend rodando: <code>npm run dev</code> (porta 5173)</li>
+                        <li>Este arquivo aberto no navegador</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <strong>Credenciais de Teste:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Email: <code>user@example.com</code></li>
+                        <li>Senha: <code>senha123</code></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <strong>Próximas Ações:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Clique em "Rodar Tudo"</li>
+                        <li>Veja os resultados</li>
+                        <li>Se houver erro, screenshot e me passa</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <strong>URL do Frontend:</strong>
+                    <code>http://localhost:5173/</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL OUTPUT -->
+        <div class="card">
+            <h2>📝 Log Completo</h2>
+            <div id="fullLog" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        const log = {
+            messages: [],
+            add: function(msg, type = 'info') {
+                this.messages.push({ msg, type, time: new Date().toLocaleTimeString() });
+                this.render();
+            },
+            render: function() {
+                const logDiv = document.getElementById('fullLog');
+                logDiv.innerHTML = this.messages.map(m =>
+                    `<div style="color: ${m.type === 'error' ? '#c33' : '#333'}">[${m.time}] ${m.msg}</div>`
+                ).join('');
+                logDiv.scrollTop = logDiv.scrollHeight;
+            },
+            clear: function() {
+                this.messages = [];
+                this.render();
+            }
+        };
+
+        async function testarBackend() {
+            log.add('⏳ Testando backend em localhost:3000...');
+            const div = document.getElementById('backendStatus');
+            div.innerHTML = '<div class="status loading">Testando...</div>';
+
+            try {
+                const response = await fetch('http://localhost:3000/health', { mode: 'cors' });
+                const data = await response.json();
+
+                div.innerHTML = `
+                    <div class="status ok">✅ Backend respondendo!</div>
+                    <div class="output success"><pre>${JSON.stringify(data, null, 2)}</pre></div>
+                `;
+                log.add('✅ Backend OK');
+            } catch (error) {
+                div.innerHTML = `
+                    <div class="status error">❌ Erro ao conectar</div>
+                    <div class="output error"><pre>${error.message}</pre></div>
+                `;
+                log.add(`❌ Erro backend: ${error.message}`, 'error');
+            }
+        }
+
+        function testarFrontend() {
+            log.add('⏳ Verificando frontend...');
+            const div = document.getElementById('frontendStatus');
+
+            try {
+                const location = window.location;
+                const frontendURL = 'http://localhost:5173/';
+
+                div.innerHTML = `
+                    <div class="status ok">✅ Frontend deveria estar em:</div>
+                    <div class="output success">
+                        <code>${frontendURL}</code><br><br>
+                        <a href="${frontendURL}" target="_blank" style="color: #667eea; text-decoration: underline;">
+                            👉 Abrir Frontend
+                        </a>
+                    </div>
+                `;
+                log.add('✅ Frontend URL disponível');
+            } catch (error) {
+                div.innerHTML = `<div class="status error">❌ Erro: ${error.message}</div>`;
+                log.add(`❌ Erro frontend: ${error.message}`, 'error');
+            }
+        }
+
+        async function testarLoginAPI() {
+            log.add('⏳ Testando login via API...');
+            const div = document.getElementById('loginStatus');
+            div.innerHTML = '<div class="status loading">Testando...</div>';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'user@example.com',
+                        senha: 'senha123'
+                    }),
+                    mode: 'cors'
+                });
+
+                const data = await response.json();
+
+                if (data.data && data.data.token) {
+                    div.innerHTML = `
+                        <div class="status ok">✅ Login API funcionando!</div>
+                        <div class="output success">
+                            <strong>Usuário:</strong> ${data.data.usuario.nome}<br>
+                            <strong>Email:</strong> ${data.data.usuario.email}<br>
+                            <strong>Token recebido:</strong> ${data.data.token.substring(0, 20)}...
+                        </div>
+                    `;
+                    log.add('✅ Login API OK');
+                } else {
+                    throw new Error('Resposta inválida: sem token');
+                }
+            } catch (error) {
+                div.innerHTML = `
+                    <div class="status error">❌ Erro no login</div>
+                    <div class="output error"><pre>${error.message}</pre></div>
+                `;
+                log.add(`❌ Erro login: ${error.message}`, 'error');
+            }
+        }
+
+        async function testeCompleto() {
+            log.clear();
+            log.add('🚀 Iniciando teste completo...');
+
+            const completeDiv = document.getElementById('completeStatus');
+            completeDiv.innerHTML = '<div class="status loading">Executando testes...</div>';
+
+            await testarBackend();
+            await new Promise(r => setTimeout(r, 500));
+
+            await testarLoginAPI();
+            await new Promise(r => setTimeout(r, 500));
+
+            testarFrontend();
+
+            completeDiv.innerHTML = `
+                <div class="status ok">✅ Testes concluídos!</div>
+                <div class="output success">
+                    <strong>Próximas ações:</strong><br><br>
+                    1. Clique em "👉 Abrir Frontend" acima<br>
+                    2. Faça login com:<br>
+                       Email: <code>user@example.com</code><br>
+                       Senha: <code>senha123</code><br>
+                    3. Veja o dashboard de validações
+                </div>
+            `;
+
+            log.add('✅ Teste completo concluído');
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            log.add('🟢 Página carregada. Clique em "Rodar Tudo" para diagnosticar.');
+        });
+    </script>
+</body>
+</html>

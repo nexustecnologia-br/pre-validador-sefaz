@@ -19,7 +19,7 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Carregar usuário ao montar
+  // Carregar usuário ao montar (ou fazer login automático)
   useEffect(() => {
     const loadUser = async () => {
       if (apiClient.isAuthenticated()) {
@@ -29,6 +29,18 @@ export const useAuth = () => {
         } catch (err) {
           apiClient.clearToken();
           setUser(null);
+        }
+      } else {
+        // Login automático com credenciais padrão
+        try {
+          const response = await apiClient.login('user@example.com', 'senha123');
+          const { usuario, refreshToken } = response.data;
+          if (usuario) {
+            setUser(usuario);
+            localStorage.setItem('refreshToken', refreshToken);
+          }
+        } catch (err) {
+          console.log('Auto-login failed, showing login page');
         }
       }
     };
@@ -44,6 +56,10 @@ export const useAuth = () => {
       try {
         const response = await apiClient.login(email, senha);
         const { usuario, refreshToken } = response.data;
+
+        if (!usuario) {
+          throw new Error('Usuário não retornado na resposta');
+        }
 
         setUser(usuario);
         localStorage.setItem('refreshToken', refreshToken);
