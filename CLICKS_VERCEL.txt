@@ -1,0 +1,132 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║          DESABILITAR PROTEÇÃO NO VERCEL - CLIQUE POR CLIQUE             ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+VISITA ESTA URL:
+https://vercel.com/dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CLIQUE 1: Abra o Projeto
+─────────────────────────────────────────────────────────────────────────
+
+Procure por: "pre_validador_sefaz" na lista de projetos
+Clique no projeto
+
+
+CLIQUE 2: Vá para Settings
+─────────────────────────────────────────────────────────────────────────
+
+Você será levado à página do projeto
+
+Na parte superior, procure por:
+    [ Settings ]
+
+Clique em Settings
+
+
+CLIQUE 3: Vá para Security
+─────────────────────────────────────────────────────────────────────────
+
+Você está em: Project Settings
+
+Na sidebar esquerda (esquerda da página), procure por:
+    [ Security ]
+
+Clique em Security
+
+
+CLIQUE 4: Encontre Deployment Protection
+─────────────────────────────────────────────────────────────────────────
+
+Você está em: Settings > Security
+
+Procure por um card/box chamado:
+    "Deployment Protection"
+    OU
+    "Protect Deployments"
+
+Verá algo como:
+    ┌────────────────────────────────┐
+    │ Deployment Protection          │
+    │                                │
+    │ Enabled [TOGGLE]               │
+    │ (com um botão/switch ativo)    │
+    │                                │
+    │ Disable (botão)                │
+    └────────────────────────────────┘
+
+
+CLIQUE 5: DESABILITE a Proteção
+─────────────────────────────────────────────────────────────────────────
+
+Opção A - Se houver um toggle:
+    Clique no toggle para mudar de ON → OFF
+
+Opção B - Se houver um botão "Disable":
+    Clique no botão [ Disable ]
+
+Opção C - Se houver checkbox:
+    Desmarque a caixa
+
+
+CLIQUE 6: Confirme (se necessário)
+─────────────────────────────────────────────────────────────────────────
+
+Se aparecer uma caixa de diálogo perguntando:
+    "Are you sure? This will make..."
+    ou
+    "Confirm Disable?"
+
+Clique em:
+    [ Confirm ]  ou  [ Disable ]  ou  [ Yes ]
+
+
+PRONTO!
+─────────────────────────────────────────────────────────────────────────
+
+Em 30 segundos, seu site estará LIVE em:
+
+    https://prevalidador_sefaz.nexus-tecnolog.ia.br
+
+Teste agora:
+    1. Abra a URL acima
+    2. Veja a interface roxo/branco
+    3. Arraste um XML ou clique para selecionar
+    4. Clique "Validar XML"
+    5. Resultado em < 300ms!
+
+
+IMAGENS/VISUAL DO DASHBOARD:
+─────────────────────────────────────────────────────────────────────────
+
+[Dashboard]
+    └─ [pre_validador_sefaz]  <── CLIQUE AQUI
+            ├─ Overview
+            ├─ Deployments
+            ├─ Settings   <── CLIQUE AQUI (2º clique)
+            ├─ Domain
+            ├─ Logs
+            └─ ...
+
+[Settings]
+    ├─ General
+    ├─ Domains
+    ├─ Environment
+    ├─ Security  <── CLIQUE AQUI (3º clique)
+    ├─ Analytics
+    └─ ...
+
+[Security]
+    ├─ Deployment Protection  <── PROCURE AQUI
+    │   └─ [Enabled] [Disable Button]  <── CLIQUE NO DISABLE (4º clique)
+    │
+    ├─ HTTPS/SSL
+    ├─ Team Access
+    └─ ...
+
+
+TEMPO ESTIMADO: 2-3 minutos
+STATUS: Quando terminar, seu site estará online!
+
+═════════════════════════════════════════════════════════════════════════════
