@@ -146,25 +146,14 @@ function validarIBSCBS(xml: string, nItem?: string): { valido: boolean; motivos:
 }
 
 // === NOVA: Validação de Impostos (ICMS, IPI, PIS, COFINS) ===
-function validarFormulasImpostos(xml: string, nItem: string): { valido: boolean; motivos: string[] } {
+function validarFormulasImpostos(detXml: string, nItem: string): { valido: boolean; motivos: string[] } {
   const motivos: string[] = [];
 
-  const detBlock = xml.match(new RegExp(`<det\\s+nItem="${nItem}">[\\s\\S]*?<\\/det>`));
-  if (!detBlock) return { valido: true, motivos: [] };
-
-  const prodBlock = detBlock[0].match(/<prod>[\s\S]*?<\/prod>/);
-  if (!prodBlock) return { valido: true, motivos: [] };
-
-  const imposto = detBlock[0].match(/<imposto>[\s\S]*?<\/imposto>/);
+  // detXml já é o conteúdo interior de <det> (sem as tags <det> externas)
+  const imposto = detXml.match(/<imposto>[\s\S]*?<\/imposto>/);
   if (!imposto) return { valido: true, motivos: [] };
 
   const imp = imposto[0];
-  const num = (name: string) => {
-    const v = tag(imp, name);
-    if (!v) return null;
-    const n = parseFloat(v);
-    return isNaN(n) ? null : n;
-  };
 
   // ICMS: vBC × aliq / 100 = vICMS (tolerance ±0.01)
   const icmsBlock = imp.match(/<ICMS\d+>[\s\S]*?<\/ICMS\d+>/);
@@ -177,7 +166,7 @@ function validarFormulasImpostos(xml: string, nItem: string): { valido: boolean;
       const calc = (parseFloat(vBC) * parseFloat(pICMS)) / 100;
       const actual = parseFloat(vICMS);
       if (Math.abs(calc - actual) > 0.01) {
-        motivos.push(`Item ${nItem}: vICMS=${actual} ≠ cálculo (${vBC}×${pICMS}%)=${calc.toFixed(2)}`);
+        motivos.push(`Item ${nItem}: vICMS=${actual.toFixed(2)} ≠ cálculo (${vBC}×${pICMS}%)=${calc.toFixed(2)}`);
       }
     }
   }
@@ -193,7 +182,7 @@ function validarFormulasImpostos(xml: string, nItem: string): { valido: boolean;
       const calc = (parseFloat(vBC) * parseFloat(pIPI)) / 100;
       const actual = parseFloat(vIPI);
       if (Math.abs(calc - actual) > 0.01) {
-        motivos.push(`Item ${nItem}: vIPI=${actual} ≠ cálculo=${calc.toFixed(2)}`);
+        motivos.push(`Item ${nItem}: vIPI=${actual.toFixed(2)} ≠ cálculo=${calc.toFixed(2)}`);
       }
     }
   }
@@ -209,7 +198,7 @@ function validarFormulasImpostos(xml: string, nItem: string): { valido: boolean;
       const calc = (parseFloat(vBC) * parseFloat(pPIS)) / 100;
       const actual = parseFloat(vPIS);
       if (Math.abs(calc - actual) > 0.01) {
-        motivos.push(`Item ${nItem}: vPIS=${actual} ≠ cálculo=${calc.toFixed(2)}`);
+        motivos.push(`Item ${nItem}: vPIS=${actual.toFixed(2)} ≠ cálculo=${calc.toFixed(2)}`);
       }
     }
   }
@@ -224,7 +213,7 @@ function validarFormulasImpostos(xml: string, nItem: string): { valido: boolean;
       const calc = (parseFloat(vBC) * parseFloat(pCOFINS)) / 100;
       const actual = parseFloat(vCOFINS);
       if (Math.abs(calc - actual) > 0.01) {
-        motivos.push(`Item ${nItem}: vCOFINS=${actual} ≠ cálculo=${calc.toFixed(2)}`);
+        motivos.push(`Item ${nItem}: vCOFINS=${actual.toFixed(2)} ≠ cálculo=${calc.toFixed(2)}`);
       }
     }
   }
