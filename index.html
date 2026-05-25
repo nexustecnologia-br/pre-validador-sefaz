@@ -561,7 +561,9 @@
             addFiles(Array.from(e.dataTransfer.files));
         });
 
-        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target !== fileInput) fileInput.click();
+        });
         fileInput.addEventListener('change', (e) => {
             addFiles(Array.from(e.target.files));
             fileInput.value = '';
