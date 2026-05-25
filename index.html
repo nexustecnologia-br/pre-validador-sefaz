@@ -493,12 +493,12 @@
         </div>
 
         <div class="glass-card">
-            <div class="upload-area" id="uploadArea">
+            <label class="upload-area" id="uploadArea" for="fileInput">
                 <input type="file" id="fileInput" accept=".xml" multiple />
                 <div class="upload-icon">📂</div>
                 <div class="upload-text">Clique ou arraste seus XMLs</div>
                 <div class="upload-hint">MÚLTIPLOS ARQUIVOS SUPORTADOS</div>
-            </div>
+            </label>
 
             <div class="file-list" id="fileList"></div>
 
@@ -561,9 +561,6 @@
             addFiles(Array.from(e.dataTransfer.files));
         });
 
-        uploadArea.addEventListener('click', (e) => {
-            if (e.target !== fileInput) fileInput.click();
-        });
         fileInput.addEventListener('change', (e) => {
             addFiles(Array.from(e.target.files));
             fileInput.value = '';
